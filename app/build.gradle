@@ -22,6 +22,15 @@ android {
     }
 }
 
+buildscript {
+    ext.okHttpVersion = "3.8.0"
+    ext.retrofitVersion = '2.3.0'
+    ext.rxJavaVersion = '2.1.1'
+    ext.rxAndroidVersion = '2.0.1'
+    ext.ankoVersion = "0.10.4"
+}
+
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
@@ -35,4 +44,9 @@ dependencies {
     //Recycler dan CardView
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.android.support:cardview-v7:27.1.1'
+
+    //Anko
+    implementation "org.jetbrains.anko:anko:${ankoVersion}"
+    implementation "org.jetbrains.anko:anko-commons:${ankoVersion}"
+
 }

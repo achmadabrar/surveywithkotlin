@@ -9,6 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 
 import id.androidjetpacks.surveykotlin.R
+import kotlinx.android.synthetic.main.fragment_login.*
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.debug
+import org.jetbrains.anko.support.v4.alert
+import org.jetbrains.anko.support.v4.toast
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,11 +28,17 @@ import id.androidjetpacks.surveykotlin.R
  * create an instance of this fragment.
  *
  */
-class Login : Fragment() {
+class Login : Fragment(), AnkoLogger {
+    //implementasi AnkoLogger disini berfungsi untuk melakukan logging
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        btn_Login.setOnClickListener {
+            val username = et_Username.text.toString().trim()
+            validateUser(username)
+        }
 
     }
 
@@ -35,6 +46,21 @@ class Login : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false)
+    }
+
+    private fun validateUser(username:String){
+        //login dengan Anko
+        debug { "username: $username" }
+
+        if (username == "Abrar"){
+            toast("Hi $username, welcome!")
+        }else{
+            alert("Username invalid!", "Login Failed!"){
+                positiveButton(buttonText = "OK"){
+                    //TODO: Not used
+                }
+            }.show()
+        }
     }
 
 
