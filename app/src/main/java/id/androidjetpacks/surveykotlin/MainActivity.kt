@@ -6,19 +6,39 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.view.inputmethod.InputMethodManager
+import id.androidjetpacks.surveykotlin.commons.RxBaseActivity
+import id.androidjetpacks.surveykotlin.commons.RxBus
+import id.androidjetpacks.surveykotlin.commons.Utils
 import id.androidjetpacks.surveykotlin.login.Login
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : RxBaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         if(savedInstanceState == null){
+            manageSubscription()
             changeFragment(Login(), false, "login")
+            //startActivity(Intent(this, Surveys::class.java))
+            //changeFragment(Surveys(), false, "login")
         }
 
     }
+
+    fun manageSubscription(){
+        subscriptions.add(RxBus.get().toObservable().subscribe(){
+            event -> managebus(event)
+        })
+    }
+
+
+    fun managebus(event:Any){
+        when(event){
+            Utils.SURVEYS -> changeFragment(Surveys(), false, "Surveys")
+        }
+    }
+
 
     fun changeFragment(f: Fragment, cleanStack: Boolean, tag: String) {
         val ft = supportFragmentManager.beginTransaction()

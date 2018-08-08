@@ -1,7 +1,6 @@
 package id.androidjetpacks.surveykotlin.login
 
-import android.content.Context
-import android.net.Uri
+import id.androidjetpacks.surveykotlin.commons.*
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -32,21 +31,23 @@ class Login : Fragment(), AnkoLogger {
     //implementasi AnkoLogger disini berfungsi untuk melakukan logging
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        btn_Login.setOnClickListener {
-            val username = et_Username.text.toString().trim()
-            validateUser(username)
-        }
-
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false)
+
     }
+
+    override fun onResume() {
+        super.onResume()
+        btn_Login.setOnClickListener {
+            val username = et_Username.text.toString().trim()
+            validateUser(username)
+
+        }
+    }
+
 
     private fun validateUser(username:String){
         //login dengan Anko
@@ -54,6 +55,7 @@ class Login : Fragment(), AnkoLogger {
 
         if (username == "Abrar"){
             toast("Hi $username, welcome!")
+            RxBus.get().send(Utils.SURVEYS)
         }else{
             alert("Username invalid!", "Login Failed!"){
                 positiveButton(buttonText = "OK"){
